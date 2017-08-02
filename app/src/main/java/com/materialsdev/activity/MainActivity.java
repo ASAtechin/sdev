@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.materialsdev.R;
@@ -14,10 +15,11 @@ import com.materialsdev.activity.fragments.DashboardFragment;
 import com.materialsdev.activity.fragments.HomeFragment;
 import com.materialsdev.activity.fragments.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, DashboardFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
 
     public android.app.FragmentManager fragmentManager;
     Fragment homeFragment, dashboard, profile;
+    FrameLayout frameLayout;
     private TextView mTextMessage;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,15 +29,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     if (homeFragment == null) homeFragment = HomeFragment.newInstance("", "");
-                    fragmentManager.beginTransaction().add(homeFragment, getString(R.string.home_fragment)).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content, homeFragment).commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    if (homeFragment == null) dashboard = DashboardFragment.newInstance("", "");
-                    fragmentManager.beginTransaction().add(dashboard, getString(R.string.dashboard_fragment)).commit();
+                    if (dashboard == null) dashboard = DashboardFragment.newInstance("", "");
+                    fragmentManager.beginTransaction().replace(R.id.content, dashboard).commit();
                     return true;
                 case R.id.navigation_profile:
-                    if (homeFragment == null) profile = ProfileFragment.newInstance("", "");
-                    fragmentManager.beginTransaction().add(profile, getString(R.string.profile_fragment)).commit();
+                    if (profile == null) profile = ProfileFragment.newInstance("", "");
+                    fragmentManager.beginTransaction().replace(R.id.content, profile).commit();
                     return true;
             }
             return false;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        frameLayout = (FrameLayout) this.findViewById(R.id.content);
         fragmentManager = getFragmentManager();
         homeFragment = new HomeFragment();
         fragmentManager.beginTransaction().add(homeFragment, getString(R.string.home_fragment)).commit();

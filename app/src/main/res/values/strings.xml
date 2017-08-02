@@ -11,4 +11,6 @@
     <string name="home_fragment">HomeFragment</string>
     <string name="dashboard_fragment">DashboardFragment</string>
     <string name="profile_fragment">ProfileFragment</string>
+    <string name="subscription_s">Subscription(s)</string>
+    <string name="education">Education</string>
 </resources>
